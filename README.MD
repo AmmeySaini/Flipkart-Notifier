@@ -31,5 +31,5 @@ Script to notify you when the product gets in stock on Flipkart
 - Goto `my.telegram.org`
 - Login with your number
 - Create new app (fill the form)
-- After submit copy your `api_id` and `api_hash` and paste in fk.p
+- After submit copy your `api_id` and `api_hash` and paste in fk.py
 - Now run the script and ENJOY!!
