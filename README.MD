@@ -17,6 +17,7 @@ Script to notify you when the product gets in stock on Flipkart
 
 - Once the product gets in stock script will automatically send you message on telegram
 - Add multiple products (url's) to check stock for
+- Check stock on your specified pincode (New)
 - Need one time execution and it'll keep working until you stop it
 - Many more features
 
