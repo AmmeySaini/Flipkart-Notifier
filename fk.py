@@ -95,7 +95,7 @@ def main():
                 try:
                     if soup.find('button', class_ = '_2AkmmA _3-iCOr wvj5kH').text == 'NOTIFY ME':
                         title = soup.find('span', class_ = '_35KyD6').text
-                        print(title + ' is oos')
+                        print(title + ' is out of stock')
                         if index == last_l - 1:
                             time.sleep(300)
                         # product is oos
@@ -114,7 +114,7 @@ def main():
                                 api_hash="xxxxxxxxxx" ######## YOUR API_HASH ########
                             )
 
-                            msg = title + ' is in stock LINK - ' + url ######## You can customize this ########
+                            msg = title + ' is in stock. LINK - ' + url ######## You can customize this ########
 
                             with app:
                                 app.send_message("your_tg_username", msg)  ######## Sending msg To @your_tg_username (set urs) ########
