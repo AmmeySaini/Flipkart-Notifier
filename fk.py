@@ -108,16 +108,17 @@ def main():
                             ######## SENDING A MESSAGE TO YOUR TELEGEGRAM ########
                             ######## Get below details from my.telegram.org ########
 
+                            # Please set Telegram API ID and API hash in .env
                             app = Client(
                                 "tg_ac",
-                                api_id=1234567, ######## YOUR API_ID ########
-                                api_hash="xxxxxxxxxx" ######## YOUR API_HASH ########
+                                api_id=os.environ.get("TELEGRAM_APP_API_ID"), 
+                                api_hash=os.environ.get("TELEGRAM_APP_API_HASH") 
                             )
 
                             msg = title + ' is in stock. LINK - ' + url ######## You can customize this ########
 
                             with app:
-                                app.send_message("your_tg_username", msg)  ######## Sending msg To @your_tg_username (set urs) ########
+                                app.send_message(os.environ.get("TELEGRAM_USERNAME"), msg)  ######## Sending msg To @your_tg_username (set urs) ########
                                 if index == last_l - 1:
                                     time.sleep(300)
                     except:
