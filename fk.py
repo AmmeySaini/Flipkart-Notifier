@@ -6,7 +6,7 @@ import time
 import sys
 from __banner__.banner import banner
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-from dotenv import load_dotenv, find_dotenv
+from dotenv import load_dotenv, find_dotenv, set_key
 import os
 
 
@@ -46,7 +46,12 @@ def main():
 
     chk_list_urls = []
     no = 1
-    input_an = True
+
+    # True if environment is not set
+    input_an = True if os.environ.get("PRODUCT_URLS")!="productA,productB" else False
+
+    # Add urls from dotenv
+    chk_list_urls = list(filter(lambda string: string!="", map(lambda url: url.strip(), os.environ.get("PRODUCT_URLS").split(","))))
 
     while input_an != False:
         inp_urls = input('Paste ' + ordinal(no) + ' url, When you are done adding urls input "next" to start script: ')
@@ -54,12 +59,19 @@ def main():
         if inp_urls != 'next':
             chk_list_urls.append(inp_urls)
         else:
+            # Set product urls in environment
+            set_key(find_dotenv(), "PRODUCT_URLS", ",".join(chk_list_urls))
             input_an = False
 
     if len(chk_list_urls) < 1:
         print('\nInput atleast one url to start')
     else:
-        pincode = input('Enter Your Pincode: ')
+        # Get pincode from environment
+        pincode = os.environ.get("PINCODE")
+        if pincode == "<pincode_here>":
+            pincode = input('Enter Your Pincode: ')
+            # Set pincode to environment
+            set_key(find_dotenv(), "PINCODE", pincode)
         pincode_url = 'https://rome.api.flipkart.com/api/4/page/fetch'
         pincode_data = '{"pageUri":"' + chk_list_urls[0] + '","locationContext":{"pincode":"' + str(pincode) + '"},"pageContext":{"pageNumber":1,"fetchSeoData":true}}'
         
