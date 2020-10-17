@@ -8,6 +8,7 @@ Script to notify you when the product gets in stock on Flipkart
 - Python module `requests`
 - Python module `pyrogram`
 - Python module `bs4`
+- Python module `python-dotenv`
 
 ## ***Module Installation***
 
@@ -21,16 +22,16 @@ Script to notify you when the product gets in stock on Flipkart
 - Need one time execution and it'll keep working until you stop it
 - Many more features
 
-## ***Usage***
-
-***Run script***
-
-    python fk.py
-
 ## ***Generate api details through telegram***
 
 - Goto `my.telegram.org`
 - Login with your number
 - Create new app (fill the form)
-- After submit copy your `api_id` and `api_hash` and paste in fk.py
+- After submitting, copy your `api_id` and `api_hash` and paste in .env file
 - Now run the script and ENJOY!!
+
+## ***Usage***
+
+***Run script***
+
+    python fk.py

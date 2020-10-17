@@ -6,6 +6,8 @@ import time
 import sys
 from __banner__.banner import banner
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+from dotenv import load_dotenv, find_dotenv, set_key
+import os
 
 
 ######## This is only for educational purpose ########
@@ -39,9 +41,17 @@ def main():
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
     }
 
+    # Check for dotenv file and load into environment
+    load_dotenv(find_dotenv())
+
     chk_list_urls = []
     no = 1
-    input_an = True
+
+    # True if environment is not set
+    input_an = True if os.environ.get("PRODUCT_URLS")!="productA,productB" else False
+
+    # Add urls from dotenv
+    chk_list_urls = list(filter(lambda string: string!="", map(lambda url: url.strip(), os.environ.get("PRODUCT_URLS").split(","))))
 
     while input_an != False:
         inp_urls = input('Paste ' + ordinal(no) + ' url, When you are done adding urls input "next" to start script: ')
@@ -49,12 +59,19 @@ def main():
         if inp_urls != 'next':
             chk_list_urls.append(inp_urls)
         else:
+            # Set product urls in environment
+            set_key(find_dotenv(), "PRODUCT_URLS", ",".join(chk_list_urls))
             input_an = False
 
     if len(chk_list_urls) < 1:
         print('\nInput atleast one url to start')
     else:
-        pincode = input('Enter Your Pincode: ')
+        # Get pincode from environment
+        pincode = os.environ.get("PINCODE")
+        if pincode == "<pincode_here>":
+            pincode = input('Enter Your Pincode: ')
+            # Set pincode to environment
+            set_key(find_dotenv(), "PINCODE", pincode)
         pincode_url = 'https://rome.api.flipkart.com/api/4/page/fetch'
         pincode_data = '{"pageUri":"' + chk_list_urls[0] + '","locationContext":{"pincode":"' + str(pincode) + '"},"pageContext":{"pageNumber":1,"fetchSeoData":true}}'
         
@@ -78,7 +95,7 @@ def main():
                 try:
                     if soup.find('button', class_ = '_2AkmmA _3-iCOr wvj5kH').text == 'NOTIFY ME':
                         title = soup.find('span', class_ = '_35KyD6').text
-                        print(title + ' is oos')
+                        print(title + ' is out of stock')
                         if index == last_l - 1:
                             time.sleep(300)
                         # product is oos
@@ -91,16 +108,17 @@ def main():
                             ######## SENDING A MESSAGE TO YOUR TELEGEGRAM ########
                             ######## Get below details from my.telegram.org ########
 
+                            # Please set Telegram API ID and API hash in .env
                             app = Client(
                                 "tg_ac",
-                                api_id=1234567, ######## YOUR API_ID ########
-                                api_hash="xxxxxxxxxx" ######## YOUR API_HASH ########
+                                api_id=os.environ.get("TELEGRAM_APP_API_ID"), 
+                                api_hash=os.environ.get("TELEGRAM_APP_API_HASH") 
                             )
 
-                            msg = title + ' is in stock LINK - ' + url ######## You can customize this ########
+                            msg = title + ' is in stock. LINK - ' + url ######## You can customize this ########
 
                             with app:
-                                app.send_message("your_tg_username", msg)  ######## Sending msg To @your_tg_username (set urs) ########
+                                app.send_message(os.environ.get("TELEGRAM_USERNAME"), msg)  ######## Sending msg To @your_tg_username (set urs) ########
                                 if index == last_l - 1:
                                     time.sleep(300)
                     except:
