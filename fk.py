@@ -123,12 +123,8 @@ def main():
                                 if index == last_l - 1:
                                     time.sleep(300)
                     except:
-                        try:
-                            if soup.find('button', class_ = '_2AkmmA _2Npkh4 _2MWPVK _18WSRq')['disabled']:
-                                print('disabled')
-                        except:
-                            print('Please add your Telegram credentials in .env files')
-                            exit()
+                        if soup.find('button', class_ = '_2AkmmA _2Npkh4 _2MWPVK _18WSRq')['disabled']:
+                            print('disabled')
 
 if __name__ == '__main__':
     main()
