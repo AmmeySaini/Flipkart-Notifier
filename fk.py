@@ -48,10 +48,11 @@ def main():
     no = 1
 
     # True if environment is not set
-    input_an = True if os.environ.get("PRODUCT_URLS")!="productA,productB" else False
+    input_an = True if os.environ.get("PRODUCT_URLS")=="productA,productB" else False
 
     # Add urls from dotenv
-    chk_list_urls = list(filter(lambda string: string!="", map(lambda url: url.strip(), os.environ.get("PRODUCT_URLS").split(","))))
+    if input_an==False:
+        chk_list_urls = list(filter(lambda string: string!="", map(lambda url: url.strip(), os.environ.get("PRODUCT_URLS").split(","))))
 
     while input_an != False:
         inp_urls = input('Paste ' + ordinal(no) + ' url, When you are done adding urls input "next" to start script: ')
