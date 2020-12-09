@@ -1,6 +1,8 @@
 # Flipkart-Notifier
 Script to notify you when the product gets in stock on Flipkart
 
+## THIS PROJECT IS NOT BEING MAINTAINED ANYMORE ##
+
 ## ***Requirements***
 
 - Python 3
